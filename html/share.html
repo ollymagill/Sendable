@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendable - Share a File</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/share.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo"><a href="home.html">Sendable</a></h1>
+            <ul class="nav-links">
+                <li><a id="login-register-button" href="login_register.html">Login/Register</a></li>
+                <li id="logout-button" class="hidden"><button>Logout</button></li>
+                <li id="my-account-link" class="hidden"><a href="my_account.html">My Account</a></li>
+                <li id="share-link" class="hidden"><a href="share.html">Share</a></li>
+                <li id="receive-link" class="hidden"><a href="receive.html">Receive</a></li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <section class="share-section">
+            <h2>Share a File</h2>
+            <div class="file-types">
+                <p>Approved file types:</p>
+                <ul>
+                    <li>Text: <strong>.txt</strong></li>
+                    <li>Audio: <strong>.mp3</strong></li>
+                    <li>Video: <strong>.mp4</strong></li>
+                    <li>Compressed: <strong>.zip</strong></li>
+                </ul>
+            </div>
+            <form id="share-form" class="share-form">
+                <div class="form-group">
+                    <label for="file">File</label>
+                    <input type="file" id="file" required />
+                    <div id="file-details" class="file-details"></div>
+                </div>
+                <div class="form-group">
+                    <label for="expiry-date">Expiry Date</label>
+                    <input type="datetime-local" id="expiry-date" />
+                </div>
+                <button type="submit" class="btn-primary">Share</button>
+            </form>
+            <div id="response-message"></div>
+            <div class="access-code hidden" id="access-code-container"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Sendable. All rights reserved.</p>
+    </footer>
+    <script src="../js/auth.js"></script>
+    <script src="../js/share.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            protectPage();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/my_account.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo"><a href="home.html">Sendable</a></h1>
+            <ul class="nav-links">
+                <li><a id="login-register-button" href="login_register.html">Login/Register</a></li>
+                <li id="logout-button" class="hidden"><button>Logout</button></li>
+                <li id="my-account-link" class="hidden"><a href="my_account.html">My Account</a></li>
+                <li id="share-link" class="hidden"><a href="share.html">Share</a></li>
+                <li id="receive-link" class="hidden"><a href="receive.html">Receive</a></li>
+            </ul>
+        </div>
+    </header>
+    <main class="account-section">
+        <h2>My Account</h2>
+        <div id="tabs-container">
+            <button class="tab-btn active" data-tab="account">My Account</button>
+            <button class="tab-btn" data-tab="shared">Shared Files</button>
+            <button class="tab-btn" data-tab="received">Received Files</button>
+        </div>
+        <div id="tab-content">
+            <div id="shared" class="tab-content">
+                <div class="tab-header">
+                    <h3>Shared Files</h3>
+                    <a href="share.html" class="btn-primary">Share New File</a>
+                </div>
+                <div id="shared-files-container">
+                    <p>Nothing here yet :D get sharing!</p>
+                </div>
+            </div>
+            <div id="received" class="tab-content">
+                <div class="tab-header">
+                    <h3>Received Files</h3>
+                    <a href="receive.html" class="btn-primary">Receive New File</a>
+                </div>
+                <div id="received-files-container">
+                    <p>Nothing here yet :D get sharing!</p>
+                </div>
+            </div>
+        </div>             
+    </main>
+    <footer>
+        <p>&copy; 2024 Sendable. All rights reserved.</p>
+    </footer>
+    <script src="../js/auth.js"></script>
+    <script src="../js/my_account.js"></script>
+</body>
+</html>
