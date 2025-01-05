@@ -1,2 +1,2 @@
 # Sendable
-COM682 App For File Sharing
+COM682 - Sendable, An App For File Sharing and Receiving

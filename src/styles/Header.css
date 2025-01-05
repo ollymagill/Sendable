@@ -1,0 +1,45 @@
+.header {
+  background-color: #006400;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo {
+  height: 50px;
+  width: auto;
+}
+
+.header-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.header-button {
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 5px;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.header-button:hover {
+  background-color: white;
+  color: #006400;
+}
+
+.my-account-button {
+  background-color: #ffffff;
+  color: #006400;
+  border: 2px solid #006400;
+}
+
+.my-account-button:hover {
+  background-color: #004d00;
+  color: white;
+}

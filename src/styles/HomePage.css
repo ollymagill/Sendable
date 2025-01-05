@@ -1,0 +1,23 @@
+.home-page {
+    padding: 50px 20px;
+    background-color: inherit;
+}
+  
+.home-page h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+  
+.home-page p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+  
+.home-image {
+    max-width: 40%;
+    height: auto;
+    border-radius: 10px;
+    margin: 20px auto;
+    display: block;
+}
+  
