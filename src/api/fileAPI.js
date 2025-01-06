@@ -40,31 +40,22 @@ const getFileAsBase64 = (file) => {
   });
 };
 
-export const retrieveFileAPI = async (accessCode) => {
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("authToken");
-
-  if (!userId || !token) {
-    throw new Error("User ID or token is missing. Please log in again.");
-  }
-
-  const requestData = {
-    access_code: accessCode,
-    user_id: userId,
-    token: token,
-  };
-
-  const response = await fetch(API_ENDPOINTS.retrieveFile, {
+export const retrieveFileAPI = async (userId, token, accessCode) => {
+  const response = await fetch(`${API_ENDPOINTS.retrieveFile}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(requestData),
+    body: JSON.stringify({
+      user_id: userId,
+      token: token,
+      access_code: accessCode,
+    }),
   });
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(errorText || "Failed to retrieve the file");
+    throw new Error(errorText || "Failed to retrieve file.");
   }
 
   return response.json();

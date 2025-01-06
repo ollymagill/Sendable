@@ -48,21 +48,50 @@ function ShareReceivePage() {
   const handleReceiveSubmit = async (event) => {
     event.preventDefault();
     if (!receiveAccessCode) return;
-
+  
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("authToken");
-
+  
     if (!userId || !token) {
       alert("You must be logged in to retrieve a file.");
       return;
     }
-
+  
     try {
       const response = await retrieveFileAPI(userId, token, receiveAccessCode);
-      setReceivedFileInfo(response);
+      setReceivedFileInfo({
+        name: response.file_name || "Unknown",
+        size: response.file_size || "Unknown",
+        downloadLink: response.file_download_url || null,
+      });
     } catch (error) {
       console.error("Error retrieving file:", error);
       alert("Failed to retrieve file. Please check the access code and try again.");
+    }
+  };
+
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(receivedFileInfo.downloadLink);
+      if (!response.ok) {
+        throw new Error("Failed to fetch the file");
+      }
+  
+      const blob = await response.blob();
+  
+      const downloadUrl = window.URL.createObjectURL(blob);
+  
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = receivedFileInfo.name || "downloaded-file.txt";
+      document.body.appendChild(link);
+      link.click();
+  
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch (error) {
+      console.error("Error downloading the file:", error);
+      alert("Failed to download the file. Please try again.");
     }
   };
 
@@ -110,12 +139,12 @@ function ShareReceivePage() {
         </form>
         {receivedFileInfo && (
           <div className="file-info">
-            <p>File Name: {receivedFileInfo.name}</p>
-            <p>File Size: {receivedFileInfo.size} Bytes</p>
-            <a href={receivedFileInfo.downloadLink} className="download-link">
-              Download File
-            </a>
-          </div>
+          <p>File Name: {receivedFileInfo.name}</p>
+          <p>File Size: {receivedFileInfo.size} Bytes</p>
+          <button className="download-button" onClick={handleDownload}>
+            Download File
+          </button>
+        </div>
         )}
       </div>
     </div>
