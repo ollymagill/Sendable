@@ -1,12 +1,12 @@
 .share-receive-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 50vh;
+  align-items: flex-start;
   gap: 40px;
-  padding: 20px;
+  padding: 40px;
   background-color: #008000;
   color: #333;
+  flex-wrap: wrap;
 }
 
 .share-section,
@@ -71,6 +71,17 @@ h1 {
   text-align: left;
   width: 100%;
   box-sizing: border-box;
+}
+
+.access-code {
+  margin-top: 20px;
+  background-color: #f1f8e9;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
 }
 
 .download-link {

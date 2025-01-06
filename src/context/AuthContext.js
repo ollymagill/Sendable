@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
-import { login, register, fetchUserDetails, updateUserDetails } from "../api/authAPI";
+import { loginAPI, registerAPI } from "../api/authAPI";
+import { fetchUserDetailsAPI, updateUserDetailsAPI } from "../api/userAPI";
 
 export const AuthContext = createContext();
 
@@ -10,49 +11,41 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const userId = localStorage.getItem("userId");
+
     if (token && userId) {
-      fetchUserDetails(token, userId)
-        .then((userData) => {
-          setUser(userData);
+      fetchUserDetailsAPI(token, userId)
+        .then((data) => {
+          setUser(data);
           setIsLoggedIn(true);
         })
-        .catch((error) => {
-          console.error("Failed to fetch user details:", error);
+        .catch(() => {
+          console.error("Session expired or invalid token.");
           localStorage.removeItem("authToken");
           localStorage.removeItem("userId");
+          setIsLoggedIn(false);
         });
     }
   }, []);
 
   const loginHandler = async (email, password) => {
     try {
-      const data = await login(email, password);
-      setUser(data.user);
-      setIsLoggedIn(true);
-      localStorage.setItem("authToken", data.token);
-      localStorage.setItem("userId", data.user.id);
+      const data = await loginAPI(email, password);
+      localStorage.setItem("authToken", data.token); // Store token
+      console.log("Token saved to localstorage: " + data.token);
+      localStorage.setItem("userId", data.user.id); // Store user ID
+      console.log("User ID saved to localstorage: " + data.user.id);
+      setUser(data.user); // Set user in state
+      setIsLoggedIn(true); // Update logged-in state
       return true;
     } catch (error) {
-      console.error("Login error:", error.message);
+      console.error("Login failed:", error.message);
       return false;
     }
-  };
-
-  const updateDetailsHandler = async (updatedDetails) => {
-    try {
-      const token = localStorage.getItem("authToken");
-      const updatedUser = await updateUserDetails(token, updatedDetails);
-      setUser(updatedUser);
-      alert("Details updated successfully.");
-    } catch (error) {
-      console.error("Failed to update user details:", error);
-      alert("Failed to update details. Please try again.");
-    }
-  };
+  };  
 
   const registerHandler = async (userDetails) => {
     try {
-      await register(userDetails);
+      await registerAPI(userDetails);
       return true;
     } catch (error) {
       console.error("Registration failed:", error.message);
@@ -60,11 +53,23 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateDetailsHandler = async (updatedDetails) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const updatedUser = await updateUserDetailsAPI(token, updatedDetails);
+      setUser(updatedUser);
+      alert("Details updated successfully.");
+    } catch (error) {
+      console.error("Failed to update user details:", error.message);
+      alert("Failed to update details. Please try again.");
+    }
+  };
+
   const logoutHandler = () => {
-    setUser(null);
-    setIsLoggedIn(false);
     localStorage.removeItem("authToken");
     localStorage.removeItem("userId");
+    setUser(null);
+    setIsLoggedIn(false);
   };
 
   return (

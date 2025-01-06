@@ -1,48 +1,12 @@
 import { API_ENDPOINTS } from "../config/apiConfig";
 
-// Fetch user details
-export const fetchUserDetails = async (token, userId) => {
-  const response = await fetch(`${API_ENDPOINTS.fetchUserDetails}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ id: userId }),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch user details");
-  }
-
-  return response.json();
-};
-
-// Update user details
-export const updateUserDetails = async (token, userDetails) => {
-  const response = await fetch(`${API_ENDPOINTS.updateUserDetails}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(userDetails),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to update user details");
-  }
-
-  return response.json();
-};
-
-export const login = async (email, password) => {
+export const loginAPI = async (email, password) => {
   const response = await fetch(API_ENDPOINTS.login, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email_address: email, password }),
+    body: JSON.stringify({ email_address: email.toLowerCase(), password }),
   });
 
   if (!response.ok) {
@@ -53,13 +17,16 @@ export const login = async (email, password) => {
   return response.json();
 };
 
-export const register = async (userDetails) => {
+export const registerAPI = async (userDetails) => {
   const response = await fetch(API_ENDPOINTS.register, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(userDetails),
+    body: JSON.stringify({
+      ...userDetails,
+      email_address: userDetails.email_address.toLowerCase(),
+    }),
   });
 
   if (!response.ok) {

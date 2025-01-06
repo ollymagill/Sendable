@@ -1,94 +1,114 @@
 .my-account-page {
-  max-width: 600px;
-  margin: 0 auto;
   padding: 20px;
-  background: #f9f9f9;
+  margin: 3% auto 6% auto;
+  max-width: 600px;
+  background-color: #f9f9f9;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.my-account-page h2 {
+h2 {
   text-align: center;
+  color: #333;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
   margin-bottom: 20px;
 }
 
-.account-info label {
+.tabs button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #c0c0c0;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #c0c0c0;
+}
+
+.tabs button.active-tab {
+  background-color: #007bff !important;
+  color: white;
+}
+
+.tabs button:hover {
+  border-style: solid;
+  border-width: 2px;
+  border-color: #007bff;
+  background-color: #c0c0c0;
+}
+
+.tab-content {
+  padding: 10px;
+}
+
+label {
   display: block;
   margin-bottom: 10px;
+  font-size: 14px;
+  color: #555;
 }
 
-.account-info input {
-  width: 100%;
+input {
+  width: calc(100% - 20px);
   padding: 8px;
-  margin-top: 5px;
+  margin-bottom: 20px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.account-info input:disabled {
-  background-color: #e9ecef;
+  border-radius: 5px;
 }
 
 .action-buttons {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  justify-content: space-evenly;
 }
 
-button {
-  padding: 10px 15px;
+button.cancel-button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-button:hover {
-  opacity: 0.9;
+button.save-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.edit-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .logout-button {
-  display: block;
-  margin: 20px auto 0;
-  padding: 10px 20px;
-  background-color: #dc3545;
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background-color: #f44336;
   color: white;
-  text-align: center;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  border-radius: 4px;
 }
 
 .logout-button:hover {
-  background-color: #c82333;
+  opacity: 0.8;
 }
 
-.my-account-page {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.account-info label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.account-info input {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.account-info input:disabled {
-  background-color: #e9ecef;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
+button:hover {
+  opacity: 0.8;
 }

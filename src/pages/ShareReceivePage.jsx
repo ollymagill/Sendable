@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import '../styles/ShareReceivePage.css';
+import React, { useState } from "react";
+import { uploadFileAPI, retrieveFileAPI } from "../api/fileAPI";
+import "../styles/ShareReceivePage.css";
 
 function ShareReceivePage() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileDetails, setFileDetails] = useState(null);
-  const [accessCode, setAccessCode] = useState('');
-  const [receiveAccessCode, setReceiveAccessCode] = useState('');
+  const [accessCode, setAccessCode] = useState("");
+  const [receiveAccessCode, setReceiveAccessCode] = useState("");
   const [receivedFileInfo, setReceivedFileInfo] = useState(null);
 
   const handleFileChange = (event) => {
@@ -14,7 +15,7 @@ function ShareReceivePage() {
     if (file) {
       setFileDetails({
         name: file.name,
-        size: (file.size / (1024 * 1024)).toFixed(2),
+        size: file.size, // Size in bytes
         type: file.type,
       });
     }
@@ -24,18 +25,23 @@ function ShareReceivePage() {
     event.preventDefault();
     if (!selectedFile) return;
 
-    const formData = new FormData();
-    formData.append('file', selectedFile);
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("authToken");
+
+    if (!userId || !token) {
+      alert("You must be logged in to upload a file.");
+      return;
+    }
+
+    const mediaType = selectedFile.type.split("/")[0]; // e.g., "text", "image"
+    const format = selectedFile.name.split(".").pop(); // File extension
 
     try {
-      const response = await fetch('YOUR_API_ENDPOINT', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.json();
-      setAccessCode(data.accessCode);
+      const response = await uploadFileAPI(userId, token, selectedFile, mediaType, `.${format}`);
+      setAccessCode(response.access_code);
     } catch (error) {
-      console.error('Error uploading file:', error);
+      console.error("Error sharing file:", error);
+      alert("Failed to upload file. Please try again.");
     }
   };
 
@@ -43,12 +49,20 @@ function ShareReceivePage() {
     event.preventDefault();
     if (!receiveAccessCode) return;
 
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("authToken");
+
+    if (!userId || !token) {
+      alert("You must be logged in to retrieve a file.");
+      return;
+    }
+
     try {
-      const response = await fetch(`YOUR_API_ENDPOINT/${receiveAccessCode}`);
-      const data = await response.json();
-      setReceivedFileInfo(data);
+      const response = await retrieveFileAPI(userId, token, receiveAccessCode);
+      setReceivedFileInfo(response);
     } catch (error) {
-      console.error('Error retrieving file:', error);
+      console.error("Error retrieving file:", error);
+      alert("Failed to retrieve file. Please check the access code and try again.");
     }
   };
 
@@ -65,7 +79,7 @@ function ShareReceivePage() {
           {fileDetails && (
             <div className="file-details">
               <p>Name: {fileDetails.name}</p>
-              <p>Size: {fileDetails.size} MB</p>
+              <p>Size: {fileDetails.size} Bytes</p>
               <p>Type: {fileDetails.type}</p>
             </div>
           )}
@@ -97,7 +111,7 @@ function ShareReceivePage() {
         {receivedFileInfo && (
           <div className="file-info">
             <p>File Name: {receivedFileInfo.name}</p>
-            <p>File Size: {receivedFileInfo.size} MB</p>
+            <p>File Size: {receivedFileInfo.size} Bytes</p>
             <a href={receivedFileInfo.downloadLink} className="download-link">
               Download File
             </a>

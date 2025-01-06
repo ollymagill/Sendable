@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { loginAPI, registerAPI } from "../api/authAPI";
 import "../styles/RegisterLoginPage.css";
 
 function RegisterLoginPage() {
@@ -19,34 +20,40 @@ function RegisterLoginPage() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    const success = await login(email, password); // Returns true or false
+  
+    const lowercaseEmail = email.trim().toLowerCase();
+    const success = await login(lowercaseEmail, password);
     if (success) {
-      navigate("/my_account"); // Navigate only on success
+      navigate("/my_account");
     } else {
       setErrorMessage("Login failed: Please check your email and password.");
     }
-  };   
+  };  
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
+  
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match.");
       return;
     }
+  
+    const lowercaseEmail = email.trim().toLowerCase();
     const success = await register({
       forname: forename,
       surname: surname,
       date_of_birth: dateOfBirth,
-      email_address: email,
+      email_address: lowercaseEmail,
       password,
     });
+  
     if (success) {
       setIsRegistering(false);
       alert("Registration successful. Please log in.");
     } else {
       setErrorMessage("Registration failed. Please try again.");
     }
-  };
+  };  
 
   return (
     <div className="register-login-page">
@@ -98,7 +105,10 @@ function RegisterLoginPage() {
           />
           <button type="submit">Register</button>
           <p>
-            Already have an account? <span className="clickable" onClick={() => setIsRegistering(false)}>Login</span>
+            Already have an account?{" "}
+            <span className="clickable" onClick={() => setIsRegistering(false)}>
+              Login
+            </span>
           </p>
         </form>
       ) : (
@@ -121,7 +131,10 @@ function RegisterLoginPage() {
           />
           <button type="submit">Login</button>
           <p>
-            Don't have an account? <span className="clickable" onClick={() => setIsRegistering(true)}>Register</span>
+            Don't have an account?{" "}
+            <span className="clickable" onClick={() => setIsRegistering(true)}>
+              Register
+            </span>
           </p>
         </form>
       )}
